@@ -20,9 +20,9 @@ function createPromise(position, delay) {
 const form = document.querySelector('.form');
 form.addEventListener('submit', handlerSubmit);
 
-form.delay.value = 500;
-form.step.value = 300;
-form.amount.value = 4;
+// form.delay.value = 500;
+// form.step.value = 300;
+// form.amount.value = 4;
 
 function handlerSubmit(event) {
   event.preventDefault();
