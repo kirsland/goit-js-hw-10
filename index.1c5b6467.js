@@ -1,2 +1,0 @@
-const n=document.querySelector("#search-box"),e=document.querySelector(".country-info");n.addEventListener("input",_.debounce((()=>{var t;(t=n.value,fetch(`https://restcountries.com/v3.1/name/${t}`).then((n=>{if(!n.ok)throw new Error(n.status);return n.json()}))).then((n=>function(n){const t=n.map((n=>`\n            <li>\n            <p><img src="${n.flags.svg}" width="80"> ${n.name.official}</p>\n            </li>\n        `)).join("");e.innerHTML=t}(n))).catch((n=>console.log(n)))}),300));
-//# sourceMappingURL=index.1c5b6467.js.map
