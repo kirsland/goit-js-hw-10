@@ -27,6 +27,7 @@ function onSearchInSearchBox(e) {
   fetchCountries(searchQuery)
     .then(resultFromQuery => {
       if (resultFromQuery.length > 10) {
+        clearHtmlFromSearchBox();
         Notify.info(
           'Too many matches found. Please enter a more specific name.'
         );
@@ -41,8 +42,11 @@ function onSearchInSearchBox(e) {
       }
     })
     .catch(err => {
-      clearHtmlFromSearchBox();
-      Notify.failure('Oops, there is no country with that name');
+      if ((err.message = '404')) {
+        clearHtmlFromSearchBox();
+        Notify.failure('Oops, there is no country with that name');
+      }
+      console.log(err);
     });
 
   function renderCountriesList(countriesListSource) {
@@ -76,32 +80,14 @@ function onSearchInSearchBox(e) {
   //   countryInfo.innerHTML = markup;
   // }
 
-  //   const renderCountryCard = data =>
-  //     data.reduce(
-  //       (acc, { flags: { svg }, name, capital, population, languages }) => {
-  //         console.log(languages);
-  //         languages = Object.values(languages).join(', ');
-  //         console.log(name);
-  //         return (countryInfo.innerHTML =
-  //           acc +
-  //           ` <img src="${svg}" alt="${name}" width="320" height="auto">
-  //             <p> ${name.official}</p>
-  //             <p>Capital: <span> ${capital}</span></p>
-  //             <p>Population: <span> ${population}</span></p>
-  //             <p>Languages: <span> ${languages}</span></p>`);
-  //       },
-  //       ''
-  //     );
-
   function renderCountryCard(countryCardSource) {
     const markup = countryCardSource
       .map(({ name, capital, population, flags, languages }) => {
         return `
-        <div><img src="${
-          flags.svg
-        }" alt="flag" width="200" height="auto"><p class="country__name">${
-          name.official
-        }</p></div>
+        <div>
+          <img src="${flags.svg}" alt="flag" width="200" height="auto">
+          <p class="country__name">${name.official}</p>
+        </div>
         <ul class="country__info">
             <li> <b>Capital</b>: ${capital}</li>
             <li> <b>Population</b>: ${population}</li>
